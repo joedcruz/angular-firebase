@@ -1,0 +1,31 @@
+<h1 mat-dialog-title>Update User Roles</h1>
+<div mat-dialog-content>
+    <div class="container" *ngIf="!post; else forminfo" novalidate> 
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form"> 
+    
+        <mat-form-field class="form-element">
+          <input matInput disabled="true" placeholder="Username" formControlName="MobileNo" [(ngModel)]="data.username">
+        </mat-form-field> 
+
+        <p></p>
+
+        <section class="example-section">
+          <mat-checkbox class="example-margin">Role 1</mat-checkbox>
+        </section> 
+
+        <p></p>
+
+        <section class="example-section">
+          <mat-checkbox class="example-margin">Role 2</mat-checkbox>
+        </section> 
+
+        <p></p>
+    
+        <div class="form-element">
+          <button mat-raised-button color="primary" type="submit" class="button">Update</button>
+        </div> 
+    
+      </form>
+    </div> 
+</div>
+

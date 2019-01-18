@@ -1,0 +1,89 @@
+<mat-toolbar-row>
+  <button mat-fab color="primary" (click)="addUser()"><mat-icon class="example-icon">add</mat-icon> </button>
+ </mat-toolbar-row>
+ 
+ <mat-form-field> 
+     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+ </mat-form-field>
+ 
+ <div class="mat-elevation-z8">
+   <table mat-table class="full-width-table" [dataSource]="listData" matSort aria-label="Elements">
+     
+   <!-- Checkbox Column -->
+     <ng-container matColumnDef="select">
+       <th mat-header-cell *matHeaderCellDef>
+         <mat-checkbox (change)="$event ? masterToggle() : null"
+                       [checked]="selection.hasValue() && isAllSelected()"
+                       [indeterminate]="selection.hasValue() && !isAllSelected()">
+         </mat-checkbox>
+       </th>
+       <td mat-cell *matCellDef="let row">
+         <mat-checkbox (click)="$event.stopPropagation()"
+                       (change)="$event ? selection.toggle(row) : null"
+                       [checked]="selection.isSelected(row)">
+         </mat-checkbox>
+       </td>
+     </ng-container>
+
+     <!-- Doc ID Column -->
+     <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let row">{{row.id}}</td>
+    </ng-container>
+     
+     <!-- Location Column -->
+     <ng-container matColumnDef="location">
+       <th mat-header-cell *matHeaderCellDef mat-sort-header>Location</th>
+       <td mat-cell *matCellDef="let row">{{row.location}}</td>
+     </ng-container>
+ 
+     <!-- Username Column -->
+     <ng-container matColumnDef="username">
+       <th mat-header-cell *matHeaderCellDef mat-sort-header>Username</th>
+       <td mat-cell *matCellDef="let row">{{row.username}}</td>
+     </ng-container>
+ 
+     <!-- User ID Column -->
+     <ng-container matColumnDef="userId">
+       <th mat-header-cell *matHeaderCellDef mat-sort-header>User ID</th>
+       <td mat-cell *matCellDef="let row">{{row.uid}}</td>
+     </ng-container>
+ 
+     <!-- Email Column -->
+     <ng-container matColumnDef="email">
+         <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+         <td mat-cell *matCellDef="let row">{{row.email}}</td>
+       </ng-container>
+ 
+       <!-- Edit roles Column -->
+     <ng-container matColumnDef="roles">
+       <th mat-header-cell *matHeaderCellDef>Edit Roles</th>
+       <td mat-cell *matCellDef="let row"><button mat-icon-button (click)="updateRoles(row)"><mat-icon>people</mat-icon></button></td>
+     </ng-container>
+ 
+     <!-- Edit button Column -->
+     <ng-container matColumnDef="update">
+       <th mat-header-cell *matHeaderCellDef>Edit Profile</th>
+       <td mat-cell *matCellDef="let row"><button mat-icon-button (click)="updateUser(row)"><mat-icon>edit</mat-icon></button></td>
+     </ng-container>
+ 
+     <!-- Delete button Column -->
+     <ng-container matColumnDef="delete">
+       <th mat-header-cell *matHeaderCellDef>Delete</th>
+       <td mat-cell *matCellDef="let row"><button mat-icon-button (click)="deleteUser(row)" color="warn"><mat-icon>delete</mat-icon></button></td>
+     </ng-container>
+ 
+     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+     <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+       (click)="selection.toggle(row)">
+     </tr>
+   </table>
+ 
+   <mat-paginator #paginator
+       [pageSize]="7"
+       [pageSizeOptions]="[7, 20, 30, 50]"
+       showFirstLastButtons>
+   </mat-paginator> 
+ 
+ </div>
+ 
