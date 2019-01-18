@@ -16,8 +16,8 @@ import * as firebase from 'firebase/app';
 )
 export class AuthService {
 
-  //user: Observable<User | null>;
-  private user: Observable<firebase.User>;
+  // user: Observable<User | null>;
+  public user: Observable<firebase.User>;
   private userDetails: firebase.User = null;
 
   constructor(
@@ -31,13 +31,14 @@ export class AuthService {
         (user) => {
           if (user) {
             this.userDetails = user;
-            console.log(this.userDetails);
+            console.log(this.userDetails + ' from auth service constructor');
           }
           else {
             this.userDetails = null;
           }
         }
       )
+
       // this.user = this.afAuth.authState.pipe(
       //   switchMap(user => {
       //     if(user) {
@@ -115,7 +116,8 @@ export class AuthService {
 
     /// Sets user data to firestore after successful login
     // private updateUserData(user: User) {
-    private updateUserData(user: User, formData: any) {
+    // private updateUserData(user: User, formData: any) {
+    private updateUserData(user: any, formData: any) {
       const userRef: AngularFirestoreDocument<User> = this.afs.doc(
         `users/${user.uid}`
       );
@@ -125,8 +127,10 @@ export class AuthService {
         email: user.email || null,
         // displayName: user.displayName || 'nameless user',
         // photoUrl: user.photoUrl || 'https://goo.gl/Fz9nrQ'
-        location: formData.location || null
-        //roles: { }
+        location: formData.location || null,
+        roles: { 
+          subscriber: true
+        }
       };
       return userRef.set(data);
     }
@@ -135,6 +139,34 @@ export class AuthService {
     private handleError(error: Error) {
       console.error(error);
       console.log(error);
+    }
+
+    ///// Role-based Authorization //////
+
+    canRead(user: User): boolean {
+      const allowed = ['admin', 'editor', 'subscriber']
+      return this.checkAuthorization(user, allowed)
+    }
+
+    canEdit(user: User): boolean {
+      const allowed = ['admin', 'editor']
+      return this.checkAuthorization(user, allowed)
+    }
+
+    canDelete(user: User): boolean {
+      const allowed = ['admin']
+      return this.checkAuthorization(user, allowed)
+    }
+
+    // determines if user has matching role
+    private checkAuthorization(user: User, allowedRoles: string[]): boolean {
+      if (!user) return false
+      for (const role of allowedRoles) {
+        if ( user.roles[role] ) {
+          return true
+        }
+      }
+      return false
     }
 
   // private _loginUrl = "http://localhost:5000/api/login";

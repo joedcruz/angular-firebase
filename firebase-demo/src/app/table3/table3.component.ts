@@ -1,3 +1,4 @@
+import { AuthService } from './../services/auth.service';
 import { CreateuserComponent } from '../createuser/createuser.component';
 import { UserData } from './../Interfaces/userdata';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -7,6 +8,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import { UpdateuserComponent } from '../updateuser/updateuser.component';
 import { DeleteuserComponent } from '../deleteuser/deleteuser.component';
 import { UpdateroleComponent } from '../updaterole/updaterole.component';
+import { User } from './../interfaces/user';
 // import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY } from '@angular/cdk/overlay/typings/overlay-directives';
 
 export interface DialogData {
@@ -27,6 +29,7 @@ export class Table3Component implements OnInit {
   // animal: string;
   name: string;
   usersList: UserData[];
+  // user: any;
   
   //isPopupOpened = true;
   //dataSource = [];
@@ -56,10 +59,16 @@ export class Table3Component implements OnInit {
   }
 
   //constructor(private userdataService: UserDataService) { }
-  constructor(public dialog: MatDialog, private userdataService: UserDataService) {
+  constructor(public dialog: MatDialog, 
+              private userdataService: UserDataService,
+              private auth: AuthService) {
      this.listData = new MatTableDataSource([]); }
 
   ngOnInit() {
+
+    // Subscribe to the current user to prevent unauthorized actions 
+    // this.auth.user.subscribe(user => this.user = user)
+
     // this.userdataService.getUsers()
     //   .subscribe(data => {
     //     this.usersList = data.map(item => {
@@ -100,6 +109,16 @@ export class Table3Component implements OnInit {
     // this.listData.sort = this.sort;
   }
 
+  // Authorize users based on abilities/roles
+  // editPost() {
+  //   if(this.auth.canEdit(this.user)) {
+  //     this.postRef.update({ title: 'Edited Title!'})
+  //   } 
+  //   else {
+  //     console.error('you are not allowed to do that!')
+  //   }  
+  // }
+
   addUser(): void {
     const dialogRef = this.dialog.open(CreateuserComponent, {
       width: '500px',
@@ -122,7 +141,7 @@ export class Table3Component implements OnInit {
       width: '500px',
       height: '500px',
       //autoFocus: true,
-      data: {id:user.id, userId: user.userId, username: user.username, email: user.email}
+      data: {uid:user.uid, email: user.email, location: user.location}
     });
 
     dialogRef.afterClosed().subscribe(result => { 

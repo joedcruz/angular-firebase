@@ -6,5 +6,5 @@ export interface User {
     // photoUrl?: string;
     // displayName?: string;
     location?: string | null;
-    //roles: Roles
+    roles: Roles;
 }

@@ -29,7 +29,7 @@ export class UserDataService {
 
     updateUser(userdata) {
         console.log('update user service'); 
-        this.fireStore.collection('users').doc(userdata.id).update(userdata)
+        this.fireStore.collection('users').doc(userdata.uid).update(userdata)
             .then(() => {
                 console.log('updated');
             })

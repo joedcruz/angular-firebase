@@ -1,8 +1,9 @@
 import { UserDataService } from './../services/userdata.service';
-import { UserData } from './../Interfaces/userdata';
+// import { UserData } from './../Interfaces/userdata';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { User } from './../interfaces/user';
 
 export interface DialogData {
   animal: string;
@@ -19,8 +20,12 @@ export class UpdateuserComponent implements OnInit {
   formGroup: FormGroup;
   titleAlert: string = 'This field is required';
 
-  constructor(private formBuilder: FormBuilder, private _userdataService: UserDataService, @Inject(MAT_DIALOG_DATA) public data: UserData,
-    public dialogRef: MatDialogRef<UpdateuserComponent>) {}
+  constructor(private formBuilder: FormBuilder, 
+              private _userdataService: UserDataService, 
+              @Inject(MAT_DIALOG_DATA) public data: User,
+              public dialogRef: MatDialogRef<UpdateuserComponent>) {
+                console.log(data + ' from update user contructor');
+              }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -34,10 +39,11 @@ export class UpdateuserComponent implements OnInit {
     // let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     this.formGroup = this.formBuilder.group({
       // 'email': [null, [Validators.required, Validators.pattern(emailregex)], this.checkInUseEmail],
-      'id': [null],
-      'userId': [null],
-      'username': [null],
+      //'id': [null],
+      'uid': [null],
+      //'username': [null],
       'email': [null],
+      'location': [null],
       //'email': [null, [Validators.required, this.getErrorEmail]],
       // 'description': [null, [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
       // 'validate': ''
