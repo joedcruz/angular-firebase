@@ -1,3 +1,4 @@
+import { Roles } from './../interfaces/roles';
 import { AuthService } from './../services/auth.service';
 import { CreateuserComponent } from '../createuser/createuser.component';
 import { UserData } from './../Interfaces/userdata';
@@ -173,7 +174,7 @@ export class Table3Component implements OnInit {
       width: '500px',
       height: '500px',
       //autoFocus: true,
-      data: {userId: user.userId, username: user.username}
+      data: {uid: user.uid, email: user.email, roles: user.Roles}
     });
 
     dialogRef.afterClosed().subscribe(result => { 

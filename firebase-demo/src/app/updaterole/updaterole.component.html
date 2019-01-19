@@ -4,19 +4,25 @@
       <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form"> 
     
         <mat-form-field class="form-element">
-          <input matInput disabled="true" placeholder="Username" formControlName="MobileNo" [(ngModel)]="data.username">
+          <input matInput disabled="true" placeholder="Email" formControlName="email" [(ngModel)]="data.email">
         </mat-form-field> 
 
         <p></p>
 
-        <section class="example-section">
-          <mat-checkbox class="example-margin">Role 1</mat-checkbox>
+        <section class="example-section">""
+          <mat-checkbox class="example-margin" formControlName="subscriber" [(ngModel)]="data.roles.subscriber.value">Subscriber</mat-checkbox>
         </section> 
 
         <p></p>
 
         <section class="example-section">
-          <mat-checkbox class="example-margin">Role 2</mat-checkbox>
+          <mat-checkbox class="example-margin" formControlName="editor">Editor</mat-checkbox>
+        </section> 
+
+        <p></p>
+
+        <section class="example-section">
+          <mat-checkbox class="example-margin" formControlName="admin">Admin</mat-checkbox>
         </section> 
 
         <p></p>
